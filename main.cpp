@@ -85,7 +85,8 @@ int main() {
         } else {
             ++startDate[month];
         }
-        cout << "Months here: " << months_here << '\n'
+        cout << "Months here(Including current month): "
+             << months_here << '\n'
              << "Current Level: " << currentLevel << '\n'
              << "Months toward next level: " << months_here % 6 << '\n';
         cout << "Date for level " << currentLevel + 1 << ": "
