@@ -23,6 +23,10 @@ private:
     long level{1};
 public:
 
+    [[nodiscard]] bool isHasInvalidEnrollment() const {
+        return hasInvalidEnrollment;
+    }
+
     Student() = default;
 
     //Never includes the current month
@@ -42,11 +46,11 @@ public:
     void addEnrollment(const Date& start, const Date& end, long holdDays) {
         if (start < end) {
             EnrollmentPeriods.push_back({start,end,holdDays});
+            calculateMonthsEnrolled();
+            calculateLevel();
         } else {
             hasInvalidEnrollment = true;
         }
-        calculateMonthsEnrolled();
-        calculateLevel();
     }
 
     [[nodiscard]] long getLevel() const {

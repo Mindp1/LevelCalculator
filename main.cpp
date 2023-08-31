@@ -4,12 +4,13 @@
 #include "Date.h"
 #include "Student.h"
 using std::cout, std::cin;
+// TODO : Add a warning if the student had an invalid entry
 int main() {
     Date currentDate;
     cout << "Enter the current date\n";
     cin >> currentDate;
     bool anotherStudent = true;
-    bool hasMultipleEnrollments = false;
+    bool hasMultipleEnrollments;
     char yesNo;
     while (anotherStudent) {
         Student s1;

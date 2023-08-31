@@ -169,7 +169,7 @@ public:
     }
 
     void addMonths(long months) {
-        year += (month.asLong() + months) /12;
+        year += (month.asLong() + months - 1) /12;
         //Currently on the last day of the month.
         if (day == daysInMonths[month.asLong()-1]) {
             month += months;
