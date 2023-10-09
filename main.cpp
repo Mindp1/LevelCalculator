@@ -1,125 +1,54 @@
 //
-// Created by Manan Patel on 6/15/23.
+// Created by Manan Patel on 7/16/23.
 //
-#include <iostream>
-#include <utility>
-using std::cout, std::cin, std::string;
-
-void calculateMonthsHere(int startDate[], int endDate[], int &months_here);
-
+#include "Date.h"
+#include "Student.h"
+using std::cout, std::cin;
+// TODO : Add a warning if the student had an invalid entry
 int main() {
-    int currentDate[3]; //= {6, 21, 2023};
-    char sep;
+    Date currentDate;
     cout << "Enter the current date\n";
-    cin >> currentDate[0] >> sep >> currentDate[1] >> sep
-        >> currentDate[2];
+    cin >> currentDate;
     bool anotherStudent = true;
+    bool hasMultipleEnrollments;
+    char yesNo;
     while (anotherStudent) {
-        int startDate[3]; // month, day, year
-        int months_here = 0;
-        int daysOnHold = 0;
-
-        bool hasMultipleEnrollments = false, repeat = true;
-        char yesNo;
+        Student s1;
         cout << "Does the student have multiple enrollments?(Yy/Nn)\n";
         cin >> yesNo;
-        if (tolower(yesNo) == 'y') {
-            hasMultipleEnrollments = true;
-        } else {
-            repeat = false;
+        hasMultipleEnrollments = toupper(yesNo) == 'Y';
+        while (hasMultipleEnrollments) {
+            Date startDate, endDate;
+            long daysOnHold = 0;
+            cout << "Enter the start date\n";
+            cin >> startDate;
+            cout << "Enter the end date\n";
+            cin >> endDate;
+            cout << "Enter the days on hold\n";
+            cin >> daysOnHold;
+            s1.addEnrollment(startDate,endDate,daysOnHold);
+            cout << "Does the student have another enrollment with an "
+                    "end date?(Yy/Nn)\n";
+            cin >> yesNo;
+            hasMultipleEnrollments = toupper(yesNo) == 'Y';
         }
-        while (repeat) {
-            if (hasMultipleEnrollments) {
-                int endDate[3];
-                cout << "Enter start date\n";
-                cin >> startDate[0] >> sep >> startDate[1] >> sep
-                    >> startDate[2];
-                cout << "Enter days on hold\n";
-                cin >> daysOnHold;
-                if (startDate[1] > 6) {
-                    ++startDate[0];
-                }
-                cout << "Enter end date\n";
-                cin >> endDate[0] >> sep >> endDate[1] >> sep
-                    >> endDate[2];
-                calculateMonthsHere(startDate, endDate, months_here);
-                cout << "Another enrollment with an end date?(Yy/Nn)\n";
-                cin >> yesNo;
-                repeat = tolower(yesNo) == 'y';
-            }
-        }
-        cout << "Enter start date\n";
-        cin >> startDate[0] >> sep >> startDate[1] >> sep >> startDate[2];
-        cout << "Enter days on hold\n";
+        Date startDate;
+        long daysOnHold = 0;
+        cout << "Enter the start date\n";
+        cin >> startDate;
+        cout << "Enter the days on hold\n";
         cin >> daysOnHold;
-        if (startDate[1] > 6) {
-            ++startDate[0];
-        }
-        calculateMonthsHere(startDate, currentDate, months_here);
-        months_here -= daysOnHold / 30;
-        int currentLevel = months_here / 6 + 1;
-        if (currentLevel > 5) {
-            currentLevel = 5;
-        }
-        int levelProgress = months_here % 6;
-        for (int i = 0; i < 6 - levelProgress; ++i) {
-            if (startDate[0] == 12) {
-                startDate[0] = 1;
-                ++startDate[2];
-            } else {
-                ++startDate[0];
-            }
-        }
-        if (startDate[0] == 12) {
-            startDate[0] = 1;
-            ++startDate[2];
-        } else {
-            ++startDate[0];
-        }
-        cout << "Months here: " << months_here << '\n'
-             << "Current Level: " << currentLevel << '\n'
-             << "Months toward next level: " << months_here % 6 << '\n';
-        cout << "Date for level " << currentLevel + 1 << ": "
-             << startDate[0] << '/' << startDate[2] << '\n';
-        for (int i = 0; i < 6; ++i) {
-            if (startDate[0] == 12) {
-                startDate[0] = 1;
-                ++startDate[2];
-            } else {
-                ++startDate[0];
-            }
-        }
-        cout << "Date for level " << currentLevel + 2 << ": "
-             << startDate[0] << '/' << startDate[2] << '\n';
-        cout << "Would you like to enter another students information?"
-                "(Yy/Nn)\n";
+        s1.addEnrollment(startDate,currentDate,daysOnHold);
+        cout << "The student has been here for: "
+             << s1.getMonthsEnrolled() << " months" << '\n'
+             << "Current level: " << s1.getLevel() << '\n'
+             << "They will be level " << s1.nextLevel()
+             << " On " << s1.dateForNextLevel() << '\n'
+             << "And they will be level " << s1.nextNextLevel()
+             << " On " << s1.dateForNextNextLevel() <<'\n';
+        cout << "Would you like to enter another student's information?"
+                "(Yy/Nn)";
         cin >> yesNo;
-        anotherStudent = tolower(yesNo) == 'y';
-    }
-}
-
-void calculateMonthsHere(int startDate[], int endDate[],
-                         int &months_here) {
-    if ((endDate[0] == 2 && endDate[1] == 28)
-        || endDate[1] == 30 || endDate[1] == 31) {
-        ++endDate[0];
-    }
-    while (startDate[2] < endDate[2]) {
-        ++months_here;
-        if (startDate[0] == 12) {
-            startDate[0] = 1;
-            ++startDate[2];
-        } else {
-            ++startDate[0];
-        }
-    }
-    while (startDate[0] < endDate[0]) {
-        ++months_here;
-        if (startDate[0] == 12) {
-            startDate[0] = 1;
-            ++startDate[2];
-        } else {
-            ++startDate[0];
-        }
+        anotherStudent = toupper(yesNo) == 'Y';
     }
 }
