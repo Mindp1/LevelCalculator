@@ -14,7 +14,7 @@ class Month {
 private:
     std::string name;
     long month{0};
-    void fixMonthOver12(bool isConstructorUsed = false) {
+    void fixMonthOver12() {
         if (month > 12) {
             month %= 12;
         }
@@ -22,7 +22,7 @@ private:
     }
 
 public:
-    const std::string &getName() const {
+    [[nodiscard]] const std::string& getName() const {
         return name;
     }
 
@@ -35,7 +35,7 @@ public:
     explicit Month(long month_value)
     {
         month = month_value;
-        fixMonthOver12(true);
+        fixMonthOver12();
         name = long_to_month(month);
     }
 
@@ -58,17 +58,17 @@ public:
         }
     }
 
-    long asLong() const {
+    [[nodiscard]] long asLong() const {
         return month;
     }
 
     Month operator + (long num_months) const {
         long result = month+ num_months;
-        if ( result < 13 && result > 0) {
+        if (result < 13 && result > 0) {
             return Month{result};
         } else if (result > 12) {
             return {month + num_months%12, true};
-        } else {// if( result < 1)
+        } else {// if (result < 1)
             return {labs(result) + 1, true};
         }
     }
@@ -105,6 +105,10 @@ public:
 
     bool operator != (const Month& month2) const {
         return month != month2.month;
+    }
+
+    bool operator == (const Month& month2) const {
+        return month == month2.month;
     }
 
     friend std::ostream&  operator << (std::ostream& stream, const Month& month1){

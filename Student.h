@@ -69,18 +69,18 @@ public:
             if (temp.getDay() > 7) {
                 temp.addMonths(1);
             }
-            //Will not run on the last month
+            // Doesn't run on the last month
             while (temp.getMonth() != i->endDate.getMonth() ||
                    temp.getYear() != i->endDate.getYear()) {
                 ++monthsEnrolled;
                 temp.addMonths(1);
             }
-            //Adds the last month, as long as it is not the current month
+            // Adds the last month, as long as it isn't the current month
             if (i != EnrollmentPeriods.end() - 1) {
                 ++monthsEnrolled;
             }
-            //If the end month does not last for the whole month, then
-            // we discount it
+            // If the end month doesn't last for the whole month, then
+            // discount it
             if (i->endDate.getDay() <
                 Date::daysInMonths[i->endDate.getMonth().asLong()-1] - 7
                 && i != EnrollmentPeriods.end() - 1) {
@@ -94,10 +94,10 @@ public:
         level = monthsEnrolled/6 + 1;
     }
 
-    Date dateForNextLevel() {
+    [[nodiscard]] Date dateForNextLevel() const {
         Date temp = EnrollmentPeriods.back().endDate;
         temp = temp + -(temp.getDay() - 1);
-        temp.addMonths(monthsEnrolled%6);
+        temp.addMonths(6 -(monthsEnrolled%6));
         return temp;
     }
 
@@ -105,10 +105,10 @@ public:
         return level + 1;
     }
 
-    Date dateForNextNextLevel() {
+    [[nodiscard]] Date dateForNextNextLevel() const {
         Date temp = EnrollmentPeriods.back().endDate;
         temp = temp + -(temp.getDay() - 1);
-        temp.addMonths(monthsEnrolled%6 + 6);
+        temp.addMonths(6-(monthsEnrolled%6) + 6);
         return temp;
     }
 
