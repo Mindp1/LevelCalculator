@@ -7,7 +7,7 @@ using std::cout, std::cin;
 // TODO : Add a warning if the student had an invalid entry
 int main() {
     Date currentDate;
-    cout << "Enter the current date\n";
+    cout << "Enter the current date (MM/DD/YYYY)\n";
     cin >> currentDate;
     bool anotherStudent = true;
     bool hasMultipleEnrollments;
