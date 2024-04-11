@@ -124,7 +124,7 @@ private:
     }
 public:
 
-    static const long daysInJanuary = 31, daysInFebruary = 28,
+    static constexpr long daysInJanuary = 31, daysInFebruary = 28,
             daysInMarch = 31, daysInApril = 30, daysInMay = 31, daysInJune = 30,
             daysInJuly = 31, daysInAugust = 31, daysInSeptember = 30,
             daysInOctober = 31, daysInNovember = 30, daysInDecember = 31;

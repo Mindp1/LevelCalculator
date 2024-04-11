@@ -18,13 +18,13 @@ struct StartEndDatePair{
 class Student {
 private:
     std::vector<StartEndDatePair> EnrollmentPeriods{};
-    bool hasInvalidEnrollment = false;
+    bool invalidEnrollment = false;
     long monthsEnrolled{};
     long level{1};
 public:
 
-    [[nodiscard]] bool isHasInvalidEnrollment() const {
-        return hasInvalidEnrollment;
+    [[nodiscard]] bool hasInvalidEnrollment() const {
+        return invalidEnrollment;
     }
 
     Student() = default;
@@ -38,7 +38,7 @@ public:
         if (start < end) {
             EnrollmentPeriods.push_back({start,end,holdDays});
         } else {
-            hasInvalidEnrollment = true;
+            invalidEnrollment = true;
         }
         calculateMonthsEnrolled();
     }
@@ -49,7 +49,7 @@ public:
             calculateMonthsEnrolled();
             calculateLevel();
         } else {
-            hasInvalidEnrollment = true;
+            invalidEnrollment = true;
         }
     }
 
